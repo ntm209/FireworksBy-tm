@@ -190,6 +190,7 @@
 
                 // Play the sound for the rocket flying up
                 this.launchSound = new Audio("Flying Up.mp3");
+                this.launchSound.preload = "auto";  // Ensure audio is preloaded before playing
                 this.launchSound.play();
             }
 
@@ -221,6 +222,7 @@
 
                 // Play the sound for the explosion
                 const explodeSound = new Audio("Explode.mp3");
+                explodeSound.preload = "auto";  // Ensure audio is preloaded before playing
                 explodeSound.play();
             }
 
@@ -261,7 +263,7 @@
                 ctx.globalAlpha = this.alpha;
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2); // Bigger particle size
+                ctx.arc(this.x, this.y, particleSize, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.restore();
             }
@@ -269,50 +271,6 @@
 
         function generateRandomColor() {
             return `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
-        }
-        function drawTextParticles() {
-        ctx.clearRect(0, 0, w, h);
-
-        // Vẽ chữ "Năm mới vui vẻ" với màu trắng
-        ctx.font = `${Math.min(w, h) / 10}px Courier New`;
-        ctx.textAlign = "center";
-        ctx.fillStyle = "blue"; // Đặt màu chữ là trắng
-        ctx.fillText("Năm mới vui vẻ", w / 2, h / 2 + Math.min(w, h) / 5);
-
-        particles = [];
-        const text = "Happy New Year";
-
-        // Vẽ chữ "Happy New Year" với particles
-        ctx.font = `${Math.min(w, h) / 5}px Edwardian Script ITC`;
-        ctx.textAlign = "center";
-        ctx.fillStyle = "white";
-        ctx.fillText(text, w / 2, h / 2);
-
-        // Lấy dữ liệu pixel từ canvas
-        const imageData = ctx.getImageData(0, 0, w, h).data;
-
-        // Xóa canvas để chuẩn bị cho particles
-        ctx.clearRect(0, 0, w, h);
-
-        // Tạo particles từ text
-        for (let y = 0; y < h; y += particleSize) {
-            for (let x = 0; x < w; x += particleSize) {
-                const alpha = imageData[(y * w + x) * 4 + 3];
-                if (alpha > 128) {
-                    particles.push(
-                        new Particle(x, y, Math.random() * 4 - 2, Math.random() * 4 - 2, generateRandomColor())
-                    );
-                }
-            }
-        }
-        animateTextParticles();
-}
-
-        function animateTextParticles() {
-            setTimeout(() => {}, 3000); 
-            ctx.clearRect(0, 0, w, h);
-            particles = particles.filter(particle => particle.update());
-            paintFireworks();
         }
     </script>
 </body>
